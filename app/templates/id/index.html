@@ -1,0 +1,165 @@
+<html>
+    <head> 
+    <title> </title>  
+    
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    </head>
+
+<body>
+    <div class="container mt-5">
+        <div class="timer">
+            <h2>Timer</h2>
+            <p id="time"></p>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <ul class="list-group">
+                  <li class="list-group-item active">Questions</li>
+                  <li class="list-group-item">
+                    {% for b in pp %}
+                    
+                    
+                    <a class="question-number" href="/question_detail_view/{{b.id}}">{{b.id}}.</a>
+                    {% endfor %}
+                  </li>
+            </ul>
+          </div>
+<div class="container mt-5">
+    
+        <div class="d-flex justify-content-center row">
+            <div class="col-md-10 col-lg-10">
+                <div class="border">
+                    <div class="question bg-white p-3 border-bottom">
+                        <div class="d-flex flex-row justify-content-between align-items-center mcq">
+                            <h4>MCQ Quiz</h4><span>(5 of 20)</span></div>
+                    </div>
+                    <div class="question bg-white p-3 border-bottom">
+                        
+
+                        <form action="/attem/" method="post">
+                            {% csrf_token %}
+ 
+
+                        <div class="d-flex flex-row align-items-center question-title">
+                           
+                             {% comment %} {% for q in qu %}  {% endcomment %}
+                             <h3 class="text-danger">Q.{{qu.id }}</h3>
+                            <h5 class="mt-1 ml-2">{{qu.question}}</h5>
+                           
+                        </div><div class="ans ml-2">  
+                            {% comment %} <input name="id"  value="{{qu.id}}"> {% endcomment %}
+<label class="radio"> <input type="radio" name="ans" value="{{qu.option_1}}"> <span>{{qu.option_1}}</span>
+</label>    
+                   <input type="hidden" name="mcq_id" value="{{ mcq.id }}">
+</div><div class="ans ml-2">
+<label class="radio"> <input type="radio" name="ans" value="{{qu.option_2}}"> <span>{{qu.option_2}}</span>
+</label>    
+</div><div class="ans ml-2">
+<label class="radio"> <input type="radio" name="ans" value="{{qu.option_3}}"> <span>{{qu.option_3}}</span>
+</label>    
+</div><div class="ans ml-2">
+<label class="radio"> <input type="radio" name="ans" value="{{qu.option_4}}"> <span>{{qu.option_4}}</span>
+</label>  
+ 
+</div></div>
+  <div class="d-flex flex-row justify-content-between align-items-center p-3 bg-white"><a href="/question_detail_view/{{pre}}"<button class="btn btn-primary d-flex align-items-center btn-danger" type="submit">previous</button></a>
+    <button type="submit"  class="btn btn-primary border-success align-items-center btn-success" >save<i class="fa fa-angle-right ml-2"></i></button>
+    <a href="/question_detail_view/{{nxt}}"<button type="submit"  class="btn btn-primary border-success align-items-center btn-success" >Next<i class="fa fa-angle-right ml-2"></i></button></a></div>
+{% comment %} {% for q in question%}
+   {% if question.id > 1 %}
+<a href="{% url 'question_detail_view' {{question_id=question.id-1}} %}">Previous</a>
+{% endif %}    
+
+{% if question.id < num_questions %}
+<a href="{% url 'question_detail_view' question_id=question.id+1 %}">Next</a>
+{% endif %}  
+</div>
+{% endfor%} {% endcomment %}
+            </div>
+        </div>
+    </div>
+
+
+    <main>
+      
+		
+			<section>
+				<input type="hidden" name="queattempt_id" id="queattempt" value="{{qu.id}}" required>
+
+				<fieldset>
+					<div>
+						<input type="hidden" name="queno" id="answer1a" value="{{qu.id}}" required>
+					</div><br>
+
+					
+					<div>
+						<input type="hidden" name="marking"  value="0" required>
+					</div><br>
+					
+                   
+				</fieldset>
+
+				
+			</section>
+
+			<!-- Add more questions here -->
+
+			 
+			<input type="hidden">
+		</form>
+	</main>
+
+
+
+
+
+    <script>
+        var countDownDate = new Date().getTime() + (100 * 60 * 1000);
+            // Update the timer every second
+            var x = setInterval(function() {
+                // Get the current time
+                var now = new Date().getTime();
+                // Calculate the time remaining
+                var distance = countDownDate - now;
+                // Convert the distance to minutes and seconds
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                // Display the time remaining
+                document.getElementById("time").innerHTML = minutes + "m " + seconds + "s ";
+                // If the timer runs out, display an alert and stop the timer
+                if (distance < 0) {
+                    clearInterval(x);
+                    alert("Time's up!");
+                }
+            }, 1000);
+
+        <script>
+            function uncheckOthers(clickedRadio) {
+                var radioButtons = document.getElementsByName("ans");
+                document.getElementById("ans").value = radio.value;
+                for (var i = 0; i < radioButtons.length; i++) {
+                  if (radioButtons[i] !== clickedRadio) {
+                    radioButtons[i].checked = false;
+                  }
+                }
+              }
+            </script>
+            
+    </script>
+
+
+
+    white_check_mark
+    eyes
+    raised_hands
+    React
+    Reply
+    
+    10:10
+
+
+
+</body>
+</html>

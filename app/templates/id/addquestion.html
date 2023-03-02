@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="robots" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GetSkills  : GetSkills Online Learning Admin Bootstrap 5 Template" />
+    <meta property="og:title" content="GetSkills  : GetSkills Online Learning  Admin Bootstrap 5 Template" />
+    <meta property="og:description" content="GetSkills  : GetSkills Online Learning  Admin Bootstrap 5 Template" />
+    <meta property="og:image" content="https://getskills.dexignzone.com/xhtml/social-image.png" />
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- PAGE TITLE HERE -->
+    <title>HRM</title>
+
+    <!-- FAVICONS ICON -->
+    <link rel="shortcut icon" type="image/png" href="{% static 'adminn/images/favicon.png' %}" />
+
+    <link href="{% static 'adminn/vendor/jquery-nice-select/css/nice-select.css' %}" rel="stylesheet">
+    <link href="{% static 'adminn/css/style.css' %}" rel="stylesheet">
+
+</head>
+
+<body style="background-color:#e6b681;">
+   
+    <header>
+		<h1>MCQ Test Series Input Form</h1>
+	</header>
+
+	<main>
+		<form action="/questions/" method="post">
+             {% csrf_token %}
+			<section>
+				<h2>Question 1</h2>
+				<label for="question1">Question:</label>
+				<input type="text" name="question" id="question1" required>
+
+				<fieldset>
+					<legend>Answer Options:</legend>
+					<div>
+						<input type="text" name="option_1" id="answer1a" value="answer1a" required>
+						<label for="answer1a">Answer A</label>
+					</div><br>
+
+
+					<div>
+						<input type="text" name="option_2" id="answer1b" value="answer1b" required>
+						<label for="answer1b">Answer B</label>
+					</div><br>
+					<div>
+						<input type="text" name="option_3" id="answer1c" value="answer1c" required>
+						<label for="answer1c">Answer C</label>
+					</div><br>
+					<div>
+						<input type="text" name="option_4" id="answer1d" value="answer1d" required>
+						<label for="answer1d">Answer D</label>
+					</div><br>
+                    <div>
+						<input type="text" name="correct_ans" id="correct_ans" value="correct_ans" required>
+						<label for="correct_ans">correct_ans</label>
+					</div><br>
+				</fieldset>
+
+				
+			</section>
+
+			<!-- Add more questions here -->
+
+			<button type="submit" value="submit">Submit</button>
+			<button type="reset">Reset</button>
+		</form>
+	</main>
+
+	<footer>
+		<p>&copy; 2023 Example Test Series. All rights reserved.</p>
+	</footer>
+
+</body>
+
+</html>
