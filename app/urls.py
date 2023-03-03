@@ -4,7 +4,13 @@ from django.conf import settings
 
 
 urlpatterns = [
-    path('', views.index),
+    path('index/', views.index),
+    path('registration/', views.registration),
+    path('userregistration/', views.userregistration),
+    path('login/', views.login),
+    path('userlogin/', views.userlogin),
+    path('', views.dashboard),
+    path('paper/', views.paper),
     path('addquestion/', views.addquestion),
     path('questions/', views.questions),
     path('attem/', views.attem),
