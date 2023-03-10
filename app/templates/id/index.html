@@ -66,17 +66,14 @@
 </div></div>
   <div class="d-flex flex-row justify-content-between align-items-center p-3 bg-white"><a href="/question_detail_view/{{pre}}"<button class="btn btn-primary d-flex align-items-center btn-danger" type="submit">previous</button></a>
     <button type="submit"  class="btn btn-primary border-success align-items-center btn-success" >save<i class="fa fa-angle-right ml-2"></i></button>
+    {%  if qus == qm %}
+    <a href="/question_detail_view/{{nxt}}"<button type="submit"  class="btn btn-primary border-success align-items-center btn-success" >Next<i class="fa fa-angle-right ml-2"></i></button></a>
+    {% else %}
     <a href="/question_detail_view/{{nxt}}"<button type="submit"  class="btn btn-primary border-success align-items-center btn-success" >Next<i class="fa fa-angle-right ml-2"></i></button></a></div>
-{% comment %} {% for q in question%}
-   {% if question.id > 1 %}
-<a href="{% url 'question_detail_view' {{question_id=question.id-1}} %}">Previous</a>
-{% endif %}    
+    {% endif %}
 
-{% if question.id < num_questions %}
-<a href="{% url 'question_detail_view' question_id=question.id+1 %}">Next</a>
-{% endif %}  
-</div>
-{% endfor%} {% endcomment %}
+ 
+
             </div>
         </div>
     </div>
@@ -90,6 +87,7 @@
 
 				<fieldset>
 					<div>
+
 						<input type="hidden" name="queno" id="answer1a" value="{{qu.id}}" required>
 					</div><br>
 
@@ -106,11 +104,20 @@
 			<!-- Add more questions here -->
 
 			 
-			<input type="hidden">
+			<input type="hidden" name='student_id' value=" {{ request.session.user_id }}">
 		</form>
 	</main>
 
-
+    <form action="/Sub_test/" method="post" >
+        {% csrf_token %}
+        <input type="hidden" value=" {{ request.session.user_id }}" name="user_id"> 
+        <input type="hidden" value="submitted" name="submitstatus">
+        <input type="hidden" value="submitted" name="attm">
+        {% comment %} <input type="hidden" value="" name="corr_ans"> {% endcomment %}
+        {% comment %} <input type="hidden" value="" name="totq"> {% endcomment %}
+        
+         <button type="submit"  class="btn btn-success">Submit_TEST</button>
+      </form>
 
 
 

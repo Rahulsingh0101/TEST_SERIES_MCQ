@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from . models import *
 from django.contrib.auth.hashers import make_password, check_password
 
@@ -8,14 +8,22 @@ from django.contrib.auth.hashers import make_password, check_password
 def registration(request):
     return render(request, 'id/registration.html')
 
+
 def login(request):
-    return render(request, 'id/login.html')    
+    return render(request, 'id/login.html')
+
 
 def dashboard(request):
-    return render(request, 'id/dashboard.html')    
+    return render(request, 'id/dashboard.html')
+
 
 def paper(request):
-    return render(request, 'id/paper.html')            
+    return render(request, 'id/paper.html')
+
+
+def ranking(request):
+    rank = Submission.objects.all()
+    return render(request, 'id/ranking.html', {'rank': rank})
 
 
 def userregistration(request):
@@ -38,7 +46,6 @@ def userregistration(request):
             return redirect('/login/')
 
 
-
 def userlogin(request):
     if request.method == 'POST':
         email = request.POST['email']
@@ -59,24 +66,30 @@ def userlogin(request):
             return HttpResponse('email  is not registered')
 
 
-
-
 def index(request):
     questio_id = 1
     nxt = questio_id + 1
     pre = questio_id - 1
+    qm = questio_id
     pp = Questions.objects.all()
     qu = Questions.objects.get(id=questio_id)
-    return render(request, 'id/index.html', {'qu': qu, 'nxt':nxt,'pre':pre,'pp':pp})
+    return render(request, 'id/index.html', {'qu': qu, 'nxt': nxt, 'pre': pre, 'pp': pp, 'qm': qm})
 
 
-def question_detail_view(request,id):
+def question_detail_view(request, id):
 
-    nxt = id + 1 
+    nxt = id + 1
     pre = id - 1
-    qu = Questions.objects.get(id=id)
-    pq = Questions.objects.all()
-    return render(request, 'id/index.html', {'qu': qu, 'nxt':nxt, 'pre':pre, 'pp':pq})
+    qm = id
+
+    qus = Questions.objects.all().count()
+    print("qus")
+    if qm > qus:
+        return redirect('/index/')
+    else:
+        qu = Questions.objects.get(id=id)
+        pq = Questions.objects.all()
+        return render(request, 'id/index.html', {'qu': qu, 'nxt': nxt, 'pre': pre, 'pp': pq, 'qm': qm, 'qus': qus})
 
 # def question_detail_view(request, question_id):
 #     question = get_object_or_404(Questions, pk=question_id)
@@ -88,22 +101,20 @@ def attem(request):
         queattempt_id = request.POST['queattempt_id']
         queno = request.POST['queno']
         ans = request.POST['ans']
+        student_id = request.POST['student_id']
         # marking = request.POST['marking']
-        aw = Questions.objects.get(id = queno)
-        if aw.correct_ans == ans :
+        aw = Questions.objects.get(id=queno)
+        if aw.correct_ans == ans:
             mark = True
         else:
-            mark = False    
-
-
+            mark = False
 
         Attemp.objects.create(queattempt_id=queattempt_id,
                               queno=queno, ans=ans,
-                              marking=mark,
+                              marking=mark, student_id=student_id
                               )
 
-    return redirect('/index/')
-    
+    return redirect(reverse('question', args=[queno]))
 
 
 def addquestion(request):
@@ -129,3 +140,42 @@ def questions(request):
         return redirect('/index/')
 
 
+def Sub_test(request):
+    if request.method == 'POST':
+        submitstatus = request.POST['submitstatus']
+        attm = request.POST['attm']
+        # corr_ans = request.POST['corr_ans']
+        # totq = request.POST['totq']
+        userid = request.POST['user_id']
+        studentid = request.session["user_id"]
+        att = User.objects.all()
+        at = Attemp.objects.all()
+        attemptt = 0
+        for a in at:
+            if a.student_id == studentid:
+                attemptt = attemptt+1
+        print(attemptt)
+
+        apt = Questions.objects.all().count()
+        counts = 0
+        for b in at:
+            if b.student_id == studentid:
+                if b.marking == True:
+                    counts = counts+1
+        print(counts)
+        percentage = 100*counts/int(apt)
+        ot = Submission.objects.filter(user_id=studentid).delete()
+
+        Submission.objects.create(submitstatus=submitstatus,
+                                  corr_ans=counts,
+                                  totq=apt,
+                                  persentage=percentage,
+                                  user_id=userid, attm=attm
+                                  )
+
+    return redirect('/ranking/', {'apt': apt})
+
+
+def last_question_view(request, id):
+    if int(id) == len(question):
+        return redirect('index')

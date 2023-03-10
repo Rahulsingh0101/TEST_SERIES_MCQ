@@ -20,13 +20,27 @@ class Questions(models.Model):
     option_4=models.CharField(max_length=100)
     correct_ans =models.CharField(max_length=100)
     is_active=models.BooleanField(default=True)
+    qno = models.CharField(max_length=100,default=1)
+
     
 
 class Attemp(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
     queattempt = models.ForeignKey(Questions, on_delete=models.CASCADE)
     queno=models.CharField(max_length=100)
     ans=models.CharField(max_length=100)
     marking=models.BooleanField()
+
+
+class Submission(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    submitstatus = models.CharField(max_length=200)
+    corr_ans = models.CharField(max_length=100)
+    persentage = models.CharField(max_length=100)
+    attm= models.CharField(max_length=100)
+    totq= models.CharField(max_length=100)
+    submission_time = models.DateTimeField(auto_now_add=True)
+
 
 
 
